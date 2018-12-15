@@ -52,7 +52,7 @@ toolchain("msvc") {
   if (target_cpu == "x86") {
     # Toolchain asset includes a script that configures for x86 building.
     # We don't support x86 builds with local MSVC installations.
-    env_setup = "cmd /c $win_sdk/bin/SetEnv.cmd /x86 && "
+    # env_setup = "cmd /c $win_sdk/bin/SetEnv.cmd /x86 && "
   } else if (target_cpu == "arm64") {
     # ARM64 compiler is incomplete - it relies on DLLs located in the host toolchain directory.
     env_setup = "cmd /C set \"PATH=%PATH%;$win_vc\\Tools\\MSVC\\$win_toolchain_version\\bin\\HostX64\\x64\" && "
@@ -138,10 +138,11 @@ toolchain("msvc") {
   }
 
   tool("solink") {
-    dllname = "{{output_dir}}/{{target_output_name}}{{output_extension}}"
-    libname = "${dllname}.lib"
-    pdbname = "${dllname}.pdb"
-    rspfile = "${dllname}.rsp"
+    targetname = "{{output_dir}}/lib{{target_output_name}}"
+    dllname = "${targetname}.dll"
+    libname = "${targetname}.lib"
+    pdbname = "${targetname}.pdb"
+    rspfile = "${targetname}.rsp"
 
     command = "$env_setup $link /nologo /IMPLIB:$libname /DLL /OUT:$dllname /PDB:$pdbname @$rspfile"
     outputs = [
