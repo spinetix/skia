@@ -22,7 +22,11 @@
 typedef struct FT_LibraryRec_* FT_Library;
 typedef struct FT_FaceRec_* FT_Face;
 typedef struct FT_StreamRec_* FT_Stream;
+#ifdef _WIN32
+typedef int FT_Pos;
+#else
 typedef signed long FT_Pos;
+#endif
 
 
 #ifdef SK_DEBUG

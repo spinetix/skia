@@ -907,6 +907,15 @@ component("skia") {
       "src/ports/SkOSLibrary_win.cpp",
       "src/ports/SkTLS_win.cpp",
     ]
+    if (!skia_use_fontconfig) {
+      sources += [
+        "src/fonts/SkFontMgr_indirect.cpp",
+        "src/ports/SkFontHost_win.cpp",
+        "src/ports/SkFontMgr_win_dw.cpp",
+        "src/ports/SkFontMgr_win_dw_factory.cpp",
+        "src/ports/SkTypeface_win_dw.cpp",
+      ]
+    }
     libs += [
       "FontSub.lib",
       "Ole32.lib",

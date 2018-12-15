@@ -14,7 +14,11 @@ import("../third_party.gni")
 if (skia_use_system_freetype2) {
   system("freetype2") {
     include_dirs = [ "/usr/include/freetype2" ]
-    libs = [ "freetype" ]
+    if (is_win) {
+      libs = [ "libfreetype.so" ]
+    } else {
+      libs = [ "freetype" ]
+    }
   }
 } else {
   third_party("freetype2") {

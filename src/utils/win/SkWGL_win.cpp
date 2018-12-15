@@ -6,7 +6,7 @@
  */
 
 #include "include/core/SkTypes.h"
-#if defined(SK_BUILD_FOR_WIN) && !defined(_M_ARM64)
+#if defined(SK_BUILD_FOR_WIN) && !defined(_M_ARM64) && SK_SUPPORT_GPU
 
 #include "src/utils/win/SkWGL.h"
 
@@ -505,4 +505,4 @@ SkWGLPbufferContext::SkWGLPbufferContext(HPBUFFER pbuffer, HDC dc, HGLRC glrc)
     , fGLRC(glrc) {
 }
 
-#endif//defined(SK_BUILD_FOR_WIN)
+#endif//defined(SK_BUILD_FOR_WIN) && SK_SUPPORT_GPU
