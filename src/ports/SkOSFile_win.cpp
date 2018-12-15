@@ -20,6 +20,43 @@
 #include <stdio.h>
 #include <sys/stat.h>
 
+#include <vector>
+#include "SkUTF.h"
+
+static bool is_ascii(const char* s) {
+    while (char v = *s++) {
+        if ((v & 0x80) != 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+static int access_win(const char* utf8path, int mode) {
+    if (is_ascii(utf8path)) {
+        return _access(utf8path, mode);
+    }
+
+    const char* ptr = utf8path;
+    const char* end = utf8path + strlen(utf8path);
+    size_t n = 0;
+    while (ptr < end) {
+        SkUnichar u = SkUTF::NextUTF8(&ptr, end);
+        if (u < 0) {
+            return -1;  // malformed UTF-8
+        }
+        n += SkUTF::ToUTF16(u);
+    }
+    std::vector<uint16_t> wchars(n + 1);
+    uint16_t* out = wchars.data();
+    for (const char* ptr = utf8path; ptr < end;) {
+        out += SkUTF::ToUTF16(SkUTF::NextUTF8(&ptr, end), out);
+    }
+    SkASSERT(out == &wchars[n]);
+    *out = 0;  // final null
+    return _waccess((wchar_t*)wchars.data(), mode);
+}
+
 bool sk_exists(const char *path, SkFILE_Flags flags) {
     int mode = 0; // existence
     if (flags & kRead_SkFILE_Flag) {
@@ -28,7 +65,7 @@ bool sk_exists(const char *path, SkFILE_Flags flags) {
     if (flags & kWrite_SkFILE_Flag) {
         mode |= 2; // write
     }
-    return (0 == _access(path, mode));
+    return (0 == access_win(path, mode));
 }
 
 typedef struct {

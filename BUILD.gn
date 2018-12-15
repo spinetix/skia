@@ -899,19 +899,23 @@ component("skia") {
 
   if (is_win) {
     sources += [
-      "src/fonts/SkFontMgr_indirect.cpp",
       "src/ports/SkDebug_win.cpp",
-      "src/ports/SkFontHost_win.cpp",
-      "src/ports/SkFontMgr_win_dw.cpp",
-      "src/ports/SkFontMgr_win_dw_factory.cpp",
       "src/ports/SkImageEncoder_WIC.cpp",
       "src/ports/SkImageGeneratorWIC.cpp",
       "src/ports/SkOSFile_win.cpp",
       "src/ports/SkOSLibrary_win.cpp",
       "src/ports/SkScalerContext_win_dw.cpp",
       "src/ports/SkTLS_win.cpp",
-      "src/ports/SkTypeface_win_dw.cpp",
     ]
+    if (!skia_use_fontconfig) {
+      sources += [
+        "src/fonts/SkFontMgr_indirect.cpp",
+        "src/ports/SkFontHost_win.cpp",
+        "src/ports/SkFontMgr_win_dw.cpp",
+        "src/ports/SkFontMgr_win_dw_factory.cpp",
+        "src/ports/SkTypeface_win_dw.cpp",
+      ]
+    }
     libs += [
       "FontSub.lib",
       "Gdi32.lib",
