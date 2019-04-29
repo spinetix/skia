@@ -409,7 +409,7 @@ config("debug_symbols") {
       cflags += [ "-gcodeview-ghash" ]
       ldflags = [ "/DEBUG:GHASH" ]
     } else {
-      ldflags = [ "/DEBUG:FASTLINK" ]
+      ldflags = [ "/DEBUG" ]
     }
   } else {
     cflags = [ "-g" ]
@@ -459,6 +459,16 @@ config("optimize") {
 
 config("NDEBUG") {
   defines = [ "NDEBUG" ]
+}
+
+config("dynamic_crt") {
+    if ( is_win ) {
+        if ( is_debug ) {
+            cflags = [ "/MDd" ]
+        } else {
+            cflags = [ "/MD" ]
+        }
+    }
 }
 
 config("executable") {

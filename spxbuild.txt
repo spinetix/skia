@@ -1,6 +1,7 @@
 Win32:
 
 Launch in a VS2017 x64 x86 Cross Tools Command Prompt:
+Make sure python 2.7 is in the path, not 3.x
 
 For debug build: 
 
