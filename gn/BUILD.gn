@@ -435,10 +435,10 @@ config("debug_symbols") {
     ]
   } else if (is_win) {
     cflags = [ "/Z7" ]
-    ldflags = [ "/DEBUG:FASTLINK" ]
+    ldflags = [ "/DEBUG" ]
     if (is_clang) {
       # /DEBUG:FASTLINK requires every object file to have standalone debug information.
-      cflags += [ "-fstandalone-debug" ]
+      # cflags += [ "-fstandalone-debug" ]
     }
   } else {
     cflags = [ "-g" ]
@@ -488,6 +488,16 @@ config("optimize") {
 
 config("NDEBUG") {
   defines = [ "NDEBUG" ]
+}
+
+config("dynamic_crt") {
+    if ( is_win ) {
+        if ( is_debug ) {
+            cflags = [ "/MDd" ]
+        } else {
+            cflags = [ "/MD" ]
+        }
+    }
 }
 
 config("executable") {
