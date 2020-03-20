@@ -21,7 +21,7 @@
 #include <sys/stat.h>
 
 #include <vector>
-#include "SkUTF.h"
+#include "src/utils/SkUTF.h"
 
 static bool is_ascii(const char* s) {
     while (char v = *s++) {

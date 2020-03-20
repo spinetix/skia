@@ -19,7 +19,7 @@
 #include "src/core/SkAutoMalloc.h"
 #include "src/core/SkBuffer.h"
 #include "src/ports/SkFontConfigInterface_direct.h"
-#include "SkOSFile.h"
+#include "src/core/SkOSFile.h"
 
 #include <fontconfig/fontconfig.h>
 #ifdef _WIN32
