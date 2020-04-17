@@ -1,20 +1,30 @@
 Win32:
 
-Launch in a VS2017 x64 x86 Cross Tools Command Prompt:
+Launch in a VS2019 x64_x86 Cross Tools or x64 Native Command Prompt:
 Make sure python 2.7 is in the path, not 3.x
 Download ninja and copy in bin
 
-For debug build: 
+For debug build:
 
 python tools/git-sync-deps
 
-bin\gn.exe gen out/Debug --args="is_official_build=false is_component_build=true is_debug=true skia_use_freetype=true skia_use_fontconfig=true skia_enable_fontmgr_win=false skia_use_lua=false skia_enable_gpu=false skia_enable_nvpr=false skia_enable_tools=false skia_enable_particles=false skia_enable_spirv_validation=false skia_use_libheif=false skia_enable_pdf=false skia_use_piex=true skia_use_system_freetype2=true clang_win=\"C:\Program Files\LLVM\" target_cpu=\"x86\" extra_ldflags=[\"/LIBPATH:C:\SpinetiX\sources\genesis\trunk\build\win32\Debug\lib\"] extra_cflags=[\"-IC:\SpinetiX\sources\genesis\trunk\build\win32\Debug\include\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win32\Debug\include\freetype2\"] extra_cflags_cc=[\"-EHsc\"]"
-bin\ninja -C out/Debug
+64-bits:
+bin\gn.exe gen out/Debug64 --args="is_official_build=false is_component_build=true is_debug=true skia_use_freetype=true skia_use_fontconfig=true skia_enable_fontmgr_win=false skia_use_lua=false skia_enable_gpu=false skia_enable_nvpr=false skia_enable_tools=false skia_enable_particles=false skia_enable_spirv_validation=false skia_use_libheif=false skia_enable_pdf=false skia_use_piex=true skia_use_system_freetype2=true clang_win=\"C:\Program Files\LLVM\" target_cpu=\"x64\" extra_ldflags=[\"/LIBPATH:C:\SpinetiX\sources\genesis\trunk\build\win64\Debug\lib\"] extra_cflags=[\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Debug\include\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Debug\include\freetype2\"] extra_cflags_cc=[\"-EHsc\"]"
+bin\ninja -C out/Debug64
+
+32-bits:
+bin\gn.exe gen out/Debug32 --args="is_official_build=false is_component_build=true is_debug=true skia_use_freetype=true skia_use_fontconfig=true skia_enable_fontmgr_win=false skia_use_lua=false skia_enable_gpu=false skia_enable_nvpr=false skia_enable_tools=false skia_enable_particles=false skia_enable_spirv_validation=false skia_use_libheif=false skia_enable_pdf=false skia_use_piex=true skia_use_system_freetype2=true clang_win=\"C:\Program Files\LLVM\" target_cpu=\"x86\" extra_ldflags=[\"/LIBPATH:C:\SpinetiX\sources\genesis\trunk\build\win32\Debug\lib\"] extra_cflags=[\"-IC:\SpinetiX\sources\genesis\trunk\build\win32\Debug\include\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win32\Debug\include\freetype2\"] extra_cflags_cc=[\"-EHsc\"]"
+bin\ninja -C out/Debug32
 
 For release build:
 
-bin\gn.exe gen out/Release --args="is_official_build=false is_component_build=true is_debug=false skia_use_freetype=true skia_use_fontconfig=true skia_enable_fontmgr_win=false skia_use_lua=false skia_enable_gpu=false skia_enable_nvpr=false skia_enable_tools=false skia_enable_particles=false skia_enable_spirv_validation=false skia_use_libheif=false skia_enable_pdf=false skia_use_piex=true skia_use_system_freetype2=true clang_win=\"C:\Program Files\LLVM\" target_cpu=\"x86\" extra_ldflags=[\"/LIBPATH:C:\SpinetiX\sources\genesis\trunk\build\win32\Release\lib\"] extra_cflags=[\"-IC:\SpinetiX\sources\genesis\trunk\build\win32\Release\include\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win32\Release\include\freetype2\"] extra_cflags_cc=[\"-EHsc\"]"
-bin\ninja -C out/Release
+64-bits:
+bin\gn.exe gen out/Release64 --args="is_official_build=false is_component_build=true is_debug=false skia_use_freetype=true skia_use_fontconfig=true skia_enable_fontmgr_win=false skia_use_lua=false skia_enable_gpu=false skia_enable_nvpr=false skia_enable_tools=false skia_enable_particles=false skia_enable_spirv_validation=false skia_use_libheif=false skia_enable_pdf=false skia_use_piex=true skia_use_system_freetype2=true clang_win=\"C:\Program Files\LLVM\" target_cpu=\"x64\" extra_ldflags=[\"/LIBPATH:C:\SpinetiX\sources\genesis\trunk\build\win64\Release\lib\"] extra_cflags=[\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Release\include\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Release\include\freetype2\"] extra_cflags_cc=[\"-EHsc\"]"
+bin\ninja -C out/Release64
+
+32-bits:
+bin\gn.exe gen out/Release64 --args="is_official_build=false is_component_build=true is_debug=false skia_use_freetype=true skia_use_fontconfig=true skia_enable_fontmgr_win=false skia_use_lua=false skia_enable_gpu=false skia_enable_nvpr=false skia_enable_tools=false skia_enable_particles=false skia_enable_spirv_validation=false skia_use_libheif=false skia_enable_pdf=false skia_use_piex=true skia_use_system_freetype2=true clang_win=\"C:\Program Files\LLVM\" target_cpu=\"x86\" extra_ldflags=[\"/LIBPATH:C:\SpinetiX\sources\genesis\trunk\build\win32\Release\lib\"] extra_cflags=[\"-IC:\SpinetiX\sources\genesis\trunk\build\win32\Release\include\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win32\Release\include\freetype2\"] extra_cflags_cc=[\"-EHsc\"]"
+bin\ninja -C out/Release32
 
 
 Linux-x64 (on prefix)
