@@ -8,7 +8,11 @@ import("zlib.gni")
 
 if (skia_use_system_zlib) {
   system("zlib") {
-    libs = [ "libz.so" ]
+    if (is_win) {
+      libs = [ "libz.so" ]
+    } else {
+      libs = [ "z" ]
+    }
   }
 } else {
   # ARM optimizations disabled for Windows on Arm MSVC builds, see http://crbug.com/v8/10012.

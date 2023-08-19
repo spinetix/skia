@@ -11,7 +11,11 @@ import("../third_party.gni")
 
 if (skia_use_system_libpng) {
   system("libpng") {
-    libs = [ "libpng.so" ]
+    if (is_win) {
+      libs = [ "libpng.so" ]
+    } else {
+      libs = [ "png" ]
+    }
   }
 } else {
   third_party("libpng") {
