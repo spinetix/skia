@@ -19,9 +19,12 @@
 #include "src/base/SkAutoMalloc.h"
 #include "src/base/SkBuffer.h"
 #include "src/ports/SkFontConfigInterface_direct.h"
+#include "src/core/SkOSFile.h"
 
 #include <fontconfig/fontconfig.h>
-#include <unistd.h>
+#ifdef _WIN32
+#define strcasecmp _stricmp
+#endif
 
 namespace {
 
@@ -505,10 +508,7 @@ SkFontConfigInterfaceDirect::~SkFontConfigInterfaceDirect() {
 }
 
 bool SkFontConfigInterfaceDirect::isAccessible(const char* filename) {
-    if (access(filename, R_OK) != 0) {
-        return false;
-    }
-    return true;
+    return sk_exists(filename, kRead_SkFILE_Flag);
 }
 
 bool SkFontConfigInterfaceDirect::isValidPattern(FcPattern* pattern) {

@@ -63,8 +63,12 @@ public:
     uint32_t uniqueID() const { return fUniqueID; }
 
 private:
+#if defined(SK_GANESH)
     static uint32_t NextUniqueID();
     const uint32_t  fUniqueID{NextUniqueID()};
+#else
+    const uint32_t fUniqueID = 0;
+#endif
 };
 }  // namespace sktext::gpu
 
