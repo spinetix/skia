@@ -5,6 +5,7 @@
  * found in the LICENSE file.
  */
 
+#include "include/private/base/SkDebug.h"
 #include "include/private/base/SkFeatures.h"
 #include "include/private/base/SkLoadUserConfig.h"
 
