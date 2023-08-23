@@ -33,7 +33,7 @@ xcopy /y /s /i include C:\SpinetiX\sources\genesis\trunk\build\win64\Release\inc
 md C:\SpinetiX\sources\genesis\trunk\build\win64\Release\include\skia\modules\skcms
 copy /y modules\skcms\skcms.h C:\SpinetiX\sources\genesis\trunk\build\win64\Release\include\skia\modules\skcms\skcms.h
 
-Linux-x64 (on Ubunto 20 LTS under wsl2)
+Linux-x64 (on Ubuntu 20 LTS under wsl2)
 
 Install LLVM:
 sudo apt update
@@ -71,7 +71,7 @@ INSTALL_DIR="$HOME/svn/dev/genesis/trunk/build/linux64/Release/skia"
 rm -fr $INSTALL_DIR
 mkdir -p "$INSTALL_DIR/include"
 mkdir -p "$INSTALL_DIR/lib"
-mkdir -p "$INSTALL_DIR/modules"
+mkdir -p "$INSTALL_DIR/modules/skcms"
 cp -f out/Release/libskia.so "$INSTALL_DIR/lib"
 cp -fr include/ $INSTALL_DIR
-cp -fr modules/skcms/ "$INSTALL_DIR/modules"
+cp -f modules/skcms/skcms.h "$INSTALL_DIR/modules/skcms"
