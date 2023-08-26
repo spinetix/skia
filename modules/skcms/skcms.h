@@ -9,8 +9,18 @@
 
 // skcms.h contains the entire public API for skcms.
 
-#ifndef SKCMS_API
-    #define SKCMS_API
+#if !defined(SKCMS_API)
+#  if defined(SKIA_IMPLEMENTATION)
+#    if defined(_MSC_VER)
+#      define SKCMS_API __declspec(dllexport)
+#    else
+#      define SKCMS_API __attribute__((visibility("default")))
+#    endif
+#  elif defined(_MSC_VER)
+#    define SKCMS_API __declspec(dllimport)
+#  else
+#    define SKCMS_API
+#  endif
 #endif
 
 #include <stdbool.h>

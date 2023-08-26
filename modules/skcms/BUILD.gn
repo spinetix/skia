@@ -6,9 +6,13 @@
 import("skcms.gni")
 
 static_library("skcms") {
-  cflags = []
+  cflags = [ "-DSKIA_IMPLEMENTATION" ]
   if (!is_win || is_clang) {
-    cflags += [ "-std=c11" ]
+    if (is_win) {
+      cflags += [ "/std:c11" ]
+    } else {
+      cflags += [ "-std=c11" ]
+    }
   }
 
   public = skcms_public_headers
