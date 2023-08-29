@@ -248,6 +248,8 @@ public:
         return fColorDepth;
     }
 
+    void setICCProfile(std::unique_ptr<ICCProfile> profile) { fProfile = std::move(profile); }
+
 private:
     SkEncodedInfo(int width, int height, Color color, Alpha alpha,
             uint8_t bitsPerComponent, uint8_t colorDepth, std::unique_ptr<ICCProfile> profile)

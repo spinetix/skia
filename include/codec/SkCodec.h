@@ -220,6 +220,19 @@ public:
     }
 
     /**
+     * Replace the ICC profile of the encoded data. This is intended for disambiguation
+     * over which transform to use in profiles with CICP, or augmentation with external
+     * information about the color encoding, such as a COLR box in ISO image files.
+     */
+    void setICCProfile(const skcms_ICCProfile &profile);
+
+    /**
+     * Returns coded color depth. If > 8, kRGBA_F16_SkColorType should
+     * be requested for the output format.
+     */
+    int getColorDepth() const { return fEncodedInfo.getColorDepth(); }
+
+    /**
      *  Returns the image orientation stored in the EXIF data.
      *  If there is no EXIF data, or if we cannot read the EXIF data, returns kTopLeft.
      */
