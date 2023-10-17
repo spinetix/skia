@@ -234,6 +234,10 @@ SkCodec::SkCodec(SkEncodedInfo&& info,
 
 SkCodec::~SkCodec() {}
 
+void SkCodec::setICCProfile(const skcms_ICCProfile& profile) {
+    const_cast<SkEncodedInfo&>(fEncodedInfo).setICCProfile(SkEncodedInfo::ICCProfile::Make(profile));
+}
+
 void SkCodec::setSrcXformFormat(XformFormat pixelFormat) {
     fSrcXformFormat = pixelFormat;
 }

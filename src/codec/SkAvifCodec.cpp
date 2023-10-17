@@ -88,7 +88,22 @@ std::unique_ptr<SkCodec> SkAvifCodec::MakeFromStream(std::unique_ptr<SkStream> s
     }
 
     std::unique_ptr<SkEncodedInfo::ICCProfile> profile = nullptr;
-    // TODO(vigneshv): Get ICC Profile from the avif decoder.
+    if (avifDecoder->image->icc.data) {
+        sk_sp<SkData> profileData =SkData::MakeWithCopy(avifDecoder->image->icc.data, avifDecoder->image->icc.size);
+        profile = SkEncodedInfo::ICCProfile::Make(std::move(profileData));
+    }
+    if (!profile) {
+        // Fall back to sRGB if case the reader does not understand CICP
+        skcms_ICCProfile sProfile = *skcms_sRGB_profile();
+        sProfile.has_CICP = true;
+        // Image will have been converted to RGB (full range) already.
+        // Only the RGB primaries and transfer function are of interest.
+        sProfile.CICP.matrix_coefficients = 0;
+        sProfile.CICP.video_full_range_flag = 1;
+        sProfile.CICP.color_primaries = uint8_t(avifDecoder->image->colorPrimaries);
+        sProfile.CICP.transfer_characteristics = uint8_t(avifDecoder->image->transferCharacteristics);
+        profile = SkEncodedInfo::ICCProfile::Make(sProfile);
+    }
 
     const int bitsPerComponent = avifDecoder->image->depth > 8 ? 16 : 8;
     SkEncodedInfo::Color color;

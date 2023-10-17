@@ -1,0 +1,77 @@
+For Win64 builds:
+
+Do not launch in a VS2019 native prompt, we'll be using clang instead for best optimizations.
+
+Clone depot_tools next to skia. Add depot_tools to path.
+Make sure python 3 is installed.
+Downalod LLVM for win64 from https://releases.llvm.org/download.html and install in default location
+
+python3 tools/git-sync-deps
+python3 bin/fetch-ninja
+
+Debug:
+
+bin\gn.exe gen out/Debug64 --args="is_official_build=false is_component_build=true is_debug=true is_trivial_abi=false skia_use_icu=false skia_use_freetype=true skia_use_fontconfig=true skia_enable_fontmgr_win=false skia_enable_fontmgr_win_gdi=false skia_use_libavif=true skia_use_jpeg_gainmaps=true skia_use_lua=false skia_use_xps=false skia_use_system_freetype2=true skia_use_system_libjpeg_turbo=true skia_use_system_zlib=true skia_use_system_libpng=true skia_enable_gpu=false skia_enable_spirv_validation=false skia_enable_pdf=false skia_enable_skshaper=false clang_win=\"C:\Program Files\LLVM\" target_cpu=\"x64\" extra_ldflags=[\"/LIBPATH:C:\SpinetiX\sources\genesis\trunk\build\win64\Debug\lib\"] extra_cflags=[\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Debug\include\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Debug\include\freetype2\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Debug\include\libjpeg-turbo\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Debug\include\libpng\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Debug\include\zlib\"] extra_cflags_cc=[\"-EHsc\"]"
+ninja -C out/Debug64
+copy /y out\Debug64\libskia.dll C:\SpinetiX\sources\genesis\trunk\build\win64\Debug\bin
+copy /y out\Debug64\libskia.pdb C:\SpinetiX\sources\genesis\trunk\build\win64\Debug\bin
+copy /y out\Debug64\libskia.lib C:\SpinetiX\sources\genesis\trunk\build\win64\Debug\lib\libskia.so
+rd /q /s C:\SpinetiX\sources\genesis\trunk\build\win64\Debug\include\skia
+xcopy /y /s /i include C:\SpinetiX\sources\genesis\trunk\build\win64\Debug\include\skia\include
+md C:\SpinetiX\sources\genesis\trunk\build\win64\Debug\include\skia\modules\skcms
+copy /y modules\skcms\skcms.h C:\SpinetiX\sources\genesis\trunk\build\win64\Debug\include\skia\modules\skcms\skcms.h
+
+Release:
+
+bin\gn.exe gen out/Release64 --args="is_official_build=false is_component_build=true is_debug=false is_trivial_abi=false skia_use_icu=false skia_use_freetype=true skia_use_fontconfig=true skia_enable_fontmgr_win=false skia_enable_fontmgr_win_gdi=false skia_use_libavif=true skia_use_jpeg_gainmaps=true skia_use_lua=false skia_use_xps=false skia_use_system_freetype2=true skia_use_system_libjpeg_turbo=true skia_use_system_zlib=true skia_use_system_libpng=true skia_enable_gpu=false skia_enable_spirv_validation=false skia_enable_pdf=false skia_enable_skshaper=false clang_win=\"C:\Program Files\LLVM\" target_cpu=\"x64\" extra_ldflags=[\"/LIBPATH:C:\SpinetiX\sources\genesis\trunk\build\win64\Release\lib\"] extra_cflags=[\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Release\include\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Release\include\freetype2\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Release\include\libjpeg-turbo\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Release\include\libpng\",\"-IC:\SpinetiX\sources\genesis\trunk\build\win64\Release\include\zlib\"] extra_cflags_cc=[\"-EHsc\"]"
+ninja -C out/Release64
+copy /y out\Release64\libskia.dll C:\SpinetiX\sources\genesis\trunk\build\win64\Release\bin
+copy /y out\Release64\libskia.pdb C:\SpinetiX\sources\genesis\trunk\build\win64\Release\bin
+copy /y out\Release64\libskia.lib C:\SpinetiX\sources\genesis\trunk\build\win64\Release\lib\libskia.so
+rd /q /s C:\SpinetiX\sources\genesis\trunk\build\win64\Release\include\skia
+xcopy /y /s /i include C:\SpinetiX\sources\genesis\trunk\build\win64\Release\include\skia\include
+md C:\SpinetiX\sources\genesis\trunk\build\win64\Release\include\skia\modules\skcms
+copy /y modules\skcms\skcms.h C:\SpinetiX\sources\genesis\trunk\build\win64\Release\include\skia\modules\skcms\skcms.h
+
+Linux-x64 (on Ubuntu 20 LTS under wsl2)
+
+Install LLVM:
+sudo apt update
+sudo apt install clang lldb lld
+
+Install dev packages for system libraries:
+sudo apt install libfontconfig-dev libfreetype6-dev libpng-dev zlib1g-dev libjpeg-turbo8-dev
+
+git clone 'https://chromium.googlesource.com/chromium/tools/depot_tools.git'
+export PATH="${PWD}/depot_tools:${PATH}"
+git clone https://github.com/spinetix/skia
+cd skia
+git checkout spx/m116
+python3 tools/git-sync-deps
+python3 bin/fetch-ninja
+
+Debug:
+
+bin/gn gen out/Debug --args='is_official_build=false is_component_build=true is_debug=true is_trivial_abi=false skia_enable_gpu=false skia_use_icu=false skia_use_libavif=true skia_use_jpeg_gainmaps=true skia_use_lua=false skia_use_x11=false skia_enable_pdf=false skia_enable_skshaper=false skia_enable_tools=false skia_enable_skottie=false skia_enable_spirv_validation=false skia_use_system_freetype2=true skia_use_system_libjpeg_turbo=true skia_use_system_zlib=true skia_use_system_libpng=true cc="clang" cxx="clang++"'
+ninja -C out/Debug
+INSTALL_DIR="$HOME/svn/dev/genesis/trunk/build/linux64/Debug/skia"
+rm -fr $INSTALL_DIR
+mkdir -p "$INSTALL_DIR/include"
+mkdir -p "$INSTALL_DIR/lib"
+mkdir -p "$INSTALL_DIR/modules/skcms"
+cp -f out/Debug/libskia.so "$INSTALL_DIR/lib"
+cp -fr include/ $INSTALL_DIR
+cp -f modules/skcms/skcms.h "$INSTALL_DIR/modules/skcms"
+
+Release:
+
+bin/gn gen out/Release --args='is_official_build=false is_component_build=true is_debug=false is_trivial_abi=false skia_enable_gpu=false skia_use_icu=false skia_use_libavif=true skia_use_jpeg_gainmaps=true skia_use_lua=false skia_use_x11=false skia_enable_pdf=false skia_enable_skshaper=false skia_enable_tools=false skia_enable_skottie=false skia_enable_spirv_validation=false skia_use_system_freetype2=true skia_use_system_libjpeg_turbo=true skia_use_system_zlib=true skia_use_system_libpng=true cc="clang" cxx="clang++"'
+ninja -C out/Release
+INSTALL_DIR="$HOME/svn/dev/genesis/trunk/build/linux64/Release/skia"
+rm -fr $INSTALL_DIR
+mkdir -p "$INSTALL_DIR/include"
+mkdir -p "$INSTALL_DIR/lib"
+mkdir -p "$INSTALL_DIR/modules/skcms"
+cp -f out/Release/libskia.so "$INSTALL_DIR/lib"
+cp -fr include/ $INSTALL_DIR
+cp -f modules/skcms/skcms.h "$INSTALL_DIR/modules/skcms"
